@@ -1,0 +1,29 @@
+{
+  "name": "degust-cupom-txt",
+  "version": "0.1.0",
+  "description": "Module capaz de extrair os dados dos cupons .txt que o PDV Linx Degust gera",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patrickpissurno/degust-cupom-txt.git"
+  },
+  "keywords": [
+    "linx",
+    "degust",
+    "txt",
+    "cupom",
+    "venda"
+  ],
+  "author": "Patrick Pissurno",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/patrickpissurno/degust-cupom-txt/issues"
+  },
+  "homepage": "https://github.com/patrickpissurno/degust-cupom-txt#readme",
+  "dependencies": {
+    "telefone": "^1.2.1"
+  }
+}
