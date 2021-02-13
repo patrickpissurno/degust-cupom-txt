@@ -3,13 +3,24 @@ const { EnderecoModel  } = require('./models/endereco');
 const { VendaItemModel } = require('./models/venda-item');
 const { VendaModel } = require('./models/venda');
 
+const PATTERN_UNICODE_NULL = /\u0000/g;
+
 /**
  * Realiza o parsing e extrai os dados de um cupom txt de venda
  * @param { string } txt
  * @returns { VendaModel }
 */
 module.exports = function(txt){
-    const lines = txt.split('\n');
+    let lines;
+    try {
+        lines = txt.split('\n');
+
+        if(lines.length < 3 || txt.replace(PATTERN_UNICODE_NULL, '').length < 1)
+            throw new Error('Arquivo corrompido.');
+    }
+    catch(ex){
+        throw new Error('Arquivo corrompido.');
+    }
 
     let _tmp = lines[0].substr(40, 8);
     const data = _tmp.substr(0, 4) + '-' + _tmp.substr(4, 2) + '-' + _tmp.substr(6, 2);
