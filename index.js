@@ -43,11 +43,6 @@ module.exports = function(txt){
 
     const venda_cancelada = lines[1].substr(19, 1).trim() || null;
 
-    //TODO: pode ter múltiplas
-    const linha_3B = lines.find(x => x.startsWith('3B'));
-    const forma_pagamento_nome = linha_3B.substr(7, 20).trim() || null;
-    const forma_pagamento_valor = parseInt(linha_3B.substr(47, 9).trim()) / 100;
-
     const linha_5 = lines.find(x => x.startsWith('5'));
 
     const qnt_total_prod = parseInt(linha_5.substr(7, 12).trim()) / 100; //FIXME: remover operação de ponto flutuante
@@ -100,10 +95,26 @@ module.exports = function(txt){
         itens.push(new VendaItemModel(sequencia_item, codigo, nome, cancelado, quantidade, valor_unitario, subtotal_item, obs_digitada));
     }
 
+    let forma_pagamento = [];
+    let pagamento_found = false;
+    for(let i = 3 + itens.length; i < lines.length; i++){
+        if(!lines[i].startsWith('3B')){
+            if(!pagamento_found)
+                continue;
+            break;
+        }
+        pagamento_found = true;
+
+        const forma_pagamento_nome = lines[i].substr(7, 20).trim() || null;
+        const forma_pagamento_valor = parseInt(lines[i].substr(47, 9).trim()) / 100; //FIXME: remover operação de ponto flutuante
+
+        forma_pagamento.push(new FormaPagamentoModel(forma_pagamento_nome, forma_pagamento_valor));
+    }
+
     const cliente_endereco = new EnderecoModel(cliente_endereco_logradouro, cliente_endereco_numero, cliente_endereco_complemento, cliente_endereco_bairro, cliente_endereco_cep, cliente_endereco_municipio, cliente_endereco_uf, cliente_endereco_referencia);
     const cliente = new ClienteModel(cliente_cpf, cliente_cnpj, cliente_email, cliente_nome, cliente_telefone, cliente_sexo, cliente_endereco.isNull() ? null : cliente_endereco, cliente_observacao, cliente_data_nascimento, cliente_data_cadastro);
-    const forma_pagamento = new FormaPagamentoModel(forma_pagamento_nome, forma_pagamento_valor);
-    const venda = new VendaModel(loja_cnpj, data, hora, tipo_venda, num_abertura, controle_interno, controle_especifico, cod_pdv, venda_cancelada, forma_pagamento.isNull() ? null : forma_pagamento, qnt_total_prod, total_prod_cupom, somatorio_valor_unitario, somatorio_valor_subtotal_item, somatorio_valor_pagamento, ind_acres_desc, valor_acres_desc, cliente.isNull() ? null : cliente, itens);
+    
+    const venda = new VendaModel(loja_cnpj, data, hora, tipo_venda, num_abertura, controle_interno, controle_especifico, cod_pdv, venda_cancelada, forma_pagamento, qnt_total_prod, total_prod_cupom, somatorio_valor_unitario, somatorio_valor_subtotal_item, somatorio_valor_pagamento, ind_acres_desc, valor_acres_desc, cliente.isNull() ? null : cliente, itens);
 
     return venda;
 }
