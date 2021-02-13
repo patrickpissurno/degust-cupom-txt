@@ -20,6 +20,7 @@ module.exports = function(txt){
     const loja_cnpj = lines[0].substr(26, 14);
 
     const controle_interno = parseInt(lines[1].substr(9, 10));
+    const tipo_venda = parseInt(lines[1].substr(20, 1));
 
     const venda_cancelada = lines[1].substr(19, 1).trim() || null
 
@@ -60,7 +61,7 @@ module.exports = function(txt){
 
     const cliente_endereco = new EnderecoModel(cliente_endereco_logradouro, cliente_endereco_numero, cliente_endereco_complemento, cliente_endereco_bairro, cliente_endereco_cep, cliente_endereco_municipio, cliente_endereco_uf, cliente_endereco_referencia);
     const cliente = new ClienteModel(cliente_cpf, cliente_nome, cliente_telefone, cliente_endereco.isNull() ? null : cliente_endereco);
-    const venda = new VendaModel(loja_cnpj, data, hora, controle_interno, venda_cancelada, cliente.isNull() ? null : cliente, itens);
+    const venda = new VendaModel(loja_cnpj, data, hora, tipo_venda, controle_interno, venda_cancelada, cliente.isNull() ? null : cliente, itens);
 
     return venda;
 }
