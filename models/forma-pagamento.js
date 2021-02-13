@@ -5,7 +5,7 @@ class FormaPagamentoModel {
     }
 
     isNull(){
-        return !this.nome || isNaN(this.valor);
+        return !this.nome || this.valor == null;
     }
 }
 

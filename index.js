@@ -110,7 +110,7 @@ module.exports = function(txt){
         const forma_pagamento_nome = lines[i].substr(7, 20).trim() || null;
         const forma_pagamento_valor = parseFixedPoint(lines[i].substr(47, 9), 2);
 
-        if(forma_pagamento_nome && !isNaN(forma_pagamento_valor))
+        if(forma_pagamento_nome && forma_pagamento_valor != null)
             forma_pagamento.push(new FormaPagamentoModel(forma_pagamento_nome, forma_pagamento_valor));
     }
 
