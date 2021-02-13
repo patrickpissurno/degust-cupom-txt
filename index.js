@@ -1,5 +1,6 @@
 const { ClienteModel } = require('./models/cliente');
 const { EnderecoModel  } = require('./models/endereco');
+const { FormaPagamentoModel } = require('./models/forma-pagamento');
 const { VendaItemModel } = require('./models/venda-item');
 const { VendaModel } = require('./models/venda');
 
@@ -34,11 +35,23 @@ module.exports = function(txt){
     const tipo_venda = parseInt(lines[1].substr(20, 1));
 
     const venda_cancelada = lines[1].substr(19, 1).trim() || null;
-    const forma_pagamento = lines.find(x => x.startsWith('3B')).substr(7, 20).trim() || null;
+
+    //TODO: pode ter múltiplas
+    const linha_3B = lines.find(x => x.startsWith('3B'));
+    const forma_pagamento_nome = linha_3B.substr(7, 20).trim() || null;
+    const forma_pagamento_valor = parseInt(linha_3B.substr(47, 9).trim()) / 100;
+
+    const linha_5 = lines.find(x => x.startsWith('5'));
+
+    const qnt_total_prod = parseInt(linha_5.substr(7, 12).trim()) / 100; //FIXME: remover operação de ponto flutuante
+    const somatorio_valor_unitario = parseInt(linha_5.substr(21, 14).trim()) / 100; //FIXME: remover operação de ponto flutuante
+    const somatorio_valor_subtotal_item = parseInt(linha_5.substr(35, 14).trim()) / 100; //FIXME: remover operação de ponto flutuante
+    const somatorio_valor_pagamento = parseInt(linha_5.substr(49, 14).trim()) / 100; //FIXME: remover operação de ponto flutuante
 
     const cliente_cpf = lines[2].substr(1, 14).trim() || null;
     const cliente_nome = lines[2].substr(15, 100).trim() || null;
     const cliente_telefone = lines[2].substr(548, 20).trim() || null;
+    const cliente_sexo = lines[2].substr(970, 1).trim() || null;
 
     const cliente_endereco_logradouro = lines[2].substr(115, 255).trim() || null;
     const cliente_endereco_bairro = lines[2].substr(420, 60).trim() || null;
@@ -64,16 +77,17 @@ module.exports = function(txt){
         const nome = lines[i].substr(30, 50).trim();
         const cancelado = lines[i].substr(116, 1);
         const quantidade = parseInt(lines[i].substr(86, 6));
-        const valor_unitario = parseInt(lines[i].substr(96, 10)) / 100;
-        const subtotal_item = parseInt(lines[i].substr(106, 10)) / 100;
+        const valor_unitario = parseInt(lines[i].substr(96, 10)) / 100; //FIXME: remover operação de ponto flutuante
+        const subtotal_item = parseInt(lines[i].substr(106, 10)) / 100; //FIXME: remover operação de ponto flutuante
         const obs_digitada = lines[i].substr(117).trim() || null;
 
         itens.push(new VendaItemModel(sequencia_item, codigo, nome, cancelado, quantidade, valor_unitario, subtotal_item, obs_digitada));
     }
 
     const cliente_endereco = new EnderecoModel(cliente_endereco_logradouro, cliente_endereco_numero, cliente_endereco_complemento, cliente_endereco_bairro, cliente_endereco_cep, cliente_endereco_municipio, cliente_endereco_uf, cliente_endereco_referencia);
-    const cliente = new ClienteModel(cliente_cpf, cliente_nome, cliente_telefone, cliente_endereco.isNull() ? null : cliente_endereco);
-    const venda = new VendaModel(loja_cnpj, data, hora, tipo_venda, controle_interno, venda_cancelada, forma_pagamento, cliente.isNull() ? null : cliente, itens);
+    const cliente = new ClienteModel(cliente_cpf, cliente_nome, cliente_telefone, cliente_sexo, cliente_endereco.isNull() ? null : cliente_endereco);
+    const forma_pagamento = new FormaPagamentoModel(forma_pagamento_nome, forma_pagamento_valor);
+    const venda = new VendaModel(loja_cnpj, data, hora, tipo_venda, controle_interno, venda_cancelada, forma_pagamento.isNull() ? null : forma_pagamento, qnt_total_prod, somatorio_valor_unitario, somatorio_valor_subtotal_item, somatorio_valor_pagamento, cliente.isNull() ? null : cliente, itens);
 
     return venda;
 }
