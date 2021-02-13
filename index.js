@@ -55,7 +55,7 @@ module.exports = function(txt){
     const somatorio_valor_subtotal_item = parseInt(linha_5.substr(35, 14).trim()) / 100; //FIXME: remover operação de ponto flutuante
     const somatorio_valor_pagamento = parseInt(linha_5.substr(49, 14).trim()) / 100; //FIXME: remover operação de ponto flutuante
 
-    const cliente_tipo = lines[2].substr(62, 1).trim() || null;
+    const cliente_tipo = lines[1].substr(62, 1).trim() || null;
     const cliente_cpf = cliente_tipo === 'J' ? null : (lines[2].substr(1, 14).trim() || null);
     const cliente_cnpj = cliente_tipo !== 'J' ? null : (lines[2].substr(1, 14).trim() || null);
     const cliente_nome = lines[2].substr(15, 100).trim() || null;
