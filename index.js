@@ -4,6 +4,8 @@ const { FormaPagamentoModel } = require('./models/forma-pagamento');
 const { VendaItemModel } = require('./models/venda-item');
 const { VendaModel } = require('./models/venda');
 
+const { parseFixedPoint } = require('./utils/decimal');
+
 const PATTERN_UNICODE_NULL = /\u0000/g;
 
 /**
@@ -37,18 +39,18 @@ module.exports = function(txt){
     const controle_especifico = parseInt(lines[1].substr(21, 10));
     const cod_pdv = parseInt(lines[1].substr(31, 3));
 
-    const total_prod_cupom = parseInt(lines[1].substr(197, 12)) / 100; //FIXME: remover operação de ponto flutuante
+    const total_prod_cupom = parseFixedPoint(lines[1].substr(197, 12), 2);
     const ind_acres_desc = lines[1].substr(209, 1).trim() || null;
-    const valor_acres_desc = parseInt(lines[1].substr(210, 12)) / 100; //FIXME: remover operação de ponto flutuante
+    const valor_acres_desc = parseFixedPoint(lines[1].substr(210, 12), 2);
 
     const venda_cancelada = lines[1].substr(19, 1).trim() || null;
 
     const linha_5 = lines.find(x => x.startsWith('5'));
 
-    const qnt_total_prod = parseInt(linha_5.substr(7, 12).trim()) / 100; //FIXME: remover operação de ponto flutuante
-    const somatorio_valor_unitario = parseInt(linha_5.substr(21, 14).trim()) / 100; //FIXME: remover operação de ponto flutuante
-    const somatorio_valor_subtotal_item = parseInt(linha_5.substr(35, 14).trim()) / 100; //FIXME: remover operação de ponto flutuante
-    const somatorio_valor_pagamento = parseInt(linha_5.substr(49, 14).trim()) / 100; //FIXME: remover operação de ponto flutuante
+    const qnt_total_prod = parseFixedPoint(linha_5.substr(7, 12), 2);
+    const somatorio_valor_unitario = parseFixedPoint(linha_5.substr(21, 14), 2);
+    const somatorio_valor_subtotal_item = parseFixedPoint(linha_5.substr(35, 14), 2);
+    const somatorio_valor_pagamento = parseFixedPoint(linha_5.substr(49, 14), 2);
 
     const cliente_tipo = lines[1].substr(62, 1).trim() || null;
     const cliente_cpf = cliente_tipo === 'J' ? null : (lines[2].substr(1, 14).trim() || null);
@@ -88,8 +90,8 @@ module.exports = function(txt){
         const nome = lines[i].substr(30, 50).trim();
         const cancelado = lines[i].substr(116, 1);
         const quantidade = parseInt(lines[i].substr(86, 6));
-        const valor_unitario = parseInt(lines[i].substr(96, 10)) / 100; //FIXME: remover operação de ponto flutuante
-        const subtotal_item = parseInt(lines[i].substr(106, 10)) / 100; //FIXME: remover operação de ponto flutuante
+        const valor_unitario = parseFixedPoint(lines[i].substr(96, 10), 2);
+        const subtotal_item = parseFixedPoint(lines[i].substr(106, 10), 2);
         const obs_digitada = lines[i].substr(117).trim() || null;
 
         itens.push(new VendaItemModel(sequencia_item, codigo, nome, cancelado, quantidade, valor_unitario, subtotal_item, obs_digitada));
@@ -106,7 +108,7 @@ module.exports = function(txt){
         pagamento_found = true;
 
         const forma_pagamento_nome = lines[i].substr(7, 20).trim() || null;
-        const forma_pagamento_valor = parseInt(lines[i].substr(47, 9).trim()) / 100; //FIXME: remover operação de ponto flutuante
+        const forma_pagamento_valor = parseFixedPoint(lines[i].substr(47, 9), 2);
 
         if(forma_pagamento_nome && !isNaN(forma_pagamento_valor))
             forma_pagamento.push(new FormaPagamentoModel(forma_pagamento_nome, forma_pagamento_valor));
