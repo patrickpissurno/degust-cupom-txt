@@ -108,7 +108,8 @@ module.exports = function(txt){
         const forma_pagamento_nome = lines[i].substr(7, 20).trim() || null;
         const forma_pagamento_valor = parseInt(lines[i].substr(47, 9).trim()) / 100; //FIXME: remover operação de ponto flutuante
 
-        forma_pagamento.push(new FormaPagamentoModel(forma_pagamento_nome, forma_pagamento_valor));
+        if(forma_pagamento_nome && !isNaN(forma_pagamento_valor))
+            forma_pagamento.push(new FormaPagamentoModel(forma_pagamento_nome, forma_pagamento_valor));
     }
 
     const cliente_endereco = new EnderecoModel(cliente_endereco_logradouro, cliente_endereco_numero, cliente_endereco_complemento, cliente_endereco_bairro, cliente_endereco_cep, cliente_endereco_municipio, cliente_endereco_uf, cliente_endereco_referencia);
