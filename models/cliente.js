@@ -4,7 +4,7 @@ const DEFAULT_DDD = '21';
 
 class ClienteModel {
     constructor(cpf, nome, telefone, sexo, endereco){
-        this.cpf = cpf;
+        this.cpf = cpf; //TODO: validar CPF
         this.nome = nome;
         this.telefone = parseTelefone(telefone) || parseTelefone(DEFAULT_DDD + telefone);
         this.sexo = sexo;

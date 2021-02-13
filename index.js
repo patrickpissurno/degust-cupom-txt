@@ -37,6 +37,8 @@ module.exports = function(txt){
     const controle_especifico = parseInt(lines[1].substr(21, 10));
     const cod_pdv = parseInt(lines[1].substr(31, 3));
 
+    const total_prod_cupom = parseInt(lines[1].substr(197, 12)) / 100; //FIXME: remover operação de ponto flutuante
+
     const venda_cancelada = lines[1].substr(19, 1).trim() || null;
 
     //TODO: pode ter múltiplas
@@ -90,7 +92,7 @@ module.exports = function(txt){
     const cliente_endereco = new EnderecoModel(cliente_endereco_logradouro, cliente_endereco_numero, cliente_endereco_complemento, cliente_endereco_bairro, cliente_endereco_cep, cliente_endereco_municipio, cliente_endereco_uf, cliente_endereco_referencia);
     const cliente = new ClienteModel(cliente_cpf, cliente_nome, cliente_telefone, cliente_sexo, cliente_endereco.isNull() ? null : cliente_endereco);
     const forma_pagamento = new FormaPagamentoModel(forma_pagamento_nome, forma_pagamento_valor);
-    const venda = new VendaModel(loja_cnpj, data, hora, tipo_venda, num_abertura, controle_interno, controle_especifico, cod_pdv, venda_cancelada, forma_pagamento.isNull() ? null : forma_pagamento, qnt_total_prod, somatorio_valor_unitario, somatorio_valor_subtotal_item, somatorio_valor_pagamento, cliente.isNull() ? null : cliente, itens);
+    const venda = new VendaModel(loja_cnpj, data, hora, tipo_venda, num_abertura, controle_interno, controle_especifico, cod_pdv, venda_cancelada, forma_pagamento.isNull() ? null : forma_pagamento, qnt_total_prod, total_prod_cupom, somatorio_valor_unitario, somatorio_valor_subtotal_item, somatorio_valor_pagamento, cliente.isNull() ? null : cliente, itens);
 
     return venda;
 }
