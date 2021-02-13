@@ -1,12 +1,14 @@
 const parseTelefone = require('telefone/parse')
 const { parse: parseEmail } = require('../utils/email')
+const { parse: parseCpf } = require('../utils/cpf')
+const { parse: parseCnpj } = require('../utils/cnpj')
 
 const DEFAULT_DDD = '21';
 
 class ClienteModel {
     constructor(cpf, cnpj, email, nome, telefone, sexo, endereco, observacao, data_nascimento, data_cadastro){
-        this.cpf = cpf; //TODO: validar CPF
-        this.cnpj = cnpj; //TODO: validar CNPJ
+        this.cpf = parseCpf(cpf);
+        this.cnpj = parseCnpj(cnpj);
         this.email = parseEmail(email);
         this.nome = nome;
         this.telefone = parseTelefone(telefone) || parseTelefone(DEFAULT_DDD + telefone);
