@@ -15,7 +15,7 @@ class EnderecoModel {
     toString(){
         let r = [];
         r.push(this.logradouro);
-        if(this.numero)
+        if(this.logradouro && this.numero)
             r.push('Nº ' + this.numero);
         r.push(this.complemento);
         r.push(this.bairro);

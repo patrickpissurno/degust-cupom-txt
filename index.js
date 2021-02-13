@@ -58,9 +58,16 @@ module.exports = function(txt){
     const cliente_tipo = lines[1].substr(62, 1).trim() || null;
     const cliente_cpf = cliente_tipo === 'J' ? null : (lines[2].substr(1, 14).trim() || null);
     const cliente_cnpj = cliente_tipo !== 'J' ? null : (lines[2].substr(1, 14).trim() || null);
+    const cliente_email = lines[2].substr(498, 50).trim() || null;
     const cliente_nome = lines[2].substr(15, 100).trim() || null;
     const cliente_telefone = lines[2].substr(548, 20).trim() || null;
     const cliente_sexo = lines[2].substr(970, 1).trim() || null;
+    const cliente_observacao = lines[2].substr(675, 40).trim() || null;
+
+    _tmp = lines[2].substr(659, 8).trim() || null;
+    const cliente_data_nascimento = !_tmp || parseInt(_tmp.substr(0, 4)) <= 2000 ? null : (_tmp.substr(0, 4) + '-' + _tmp.substr(4, 2) + '-' + _tmp.substr(6, 2));
+    _tmp = lines[2].substr(667, 8).trim() || null;
+    const cliente_data_cadastro = !_tmp || parseInt(_tmp.substr(0, 4)) <= 2000 ? null : (_tmp.substr(0, 4) + '-' + _tmp.substr(4, 2) + '-' + _tmp.substr(6, 2));
 
     const cliente_endereco_logradouro = lines[2].substr(115, 255).trim() || null;
     const cliente_endereco_bairro = lines[2].substr(420, 60).trim() || null;
@@ -94,7 +101,7 @@ module.exports = function(txt){
     }
 
     const cliente_endereco = new EnderecoModel(cliente_endereco_logradouro, cliente_endereco_numero, cliente_endereco_complemento, cliente_endereco_bairro, cliente_endereco_cep, cliente_endereco_municipio, cliente_endereco_uf, cliente_endereco_referencia);
-    const cliente = new ClienteModel(cliente_cpf, cliente_cnpj, cliente_nome, cliente_telefone, cliente_sexo, cliente_endereco.isNull() ? null : cliente_endereco);
+    const cliente = new ClienteModel(cliente_cpf, cliente_cnpj, cliente_email, cliente_nome, cliente_telefone, cliente_sexo, cliente_endereco.isNull() ? null : cliente_endereco, cliente_observacao, cliente_data_nascimento, cliente_data_cadastro);
     const forma_pagamento = new FormaPagamentoModel(forma_pagamento_nome, forma_pagamento_valor);
     const venda = new VendaModel(loja_cnpj, data, hora, tipo_venda, num_abertura, controle_interno, controle_especifico, cod_pdv, venda_cancelada, forma_pagamento.isNull() ? null : forma_pagamento, qnt_total_prod, total_prod_cupom, somatorio_valor_unitario, somatorio_valor_subtotal_item, somatorio_valor_pagamento, ind_acres_desc, valor_acres_desc, cliente.isNull() ? null : cliente, itens);
 
