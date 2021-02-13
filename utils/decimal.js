@@ -6,7 +6,11 @@
  * @returns { number }
  */
 function parseFixedPoint(str, decimal_places = 2){
-    return str == null ? null : (parseInt(str.trim()) / (Math.pow(10, decimal_places))) || null; //FIXME: remover operação de ponto flutuante
+    if(str == null)
+        return null;
+    str = str.trim();
+    let v = parseFloat(`${str.substr(0, str.length - decimal_places)}.${str.substr(str.length - decimal_places)}`);
+    return isNaN(v) ? null : v;
 }
 
 module.exports = {
