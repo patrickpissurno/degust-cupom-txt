@@ -119,7 +119,7 @@ module.exports = function(txt){
             forma_pagamento.push(new FormaPagamentoModel({ nome, valor }));
     }
 
-    const cliente = new ClienteModel(cliente_cpf, cliente_cnpj, cliente_email, cliente_nome, cliente_telefone, cliente_sexo, cliente_endereco.isNull() ? null : cliente_endereco, cliente_observacao, cliente_data_nascimento, cliente_data_cadastro);
+    const cliente = new ClienteModel({ cpf: cliente_cpf, cnpj: cliente_cnpj, email: cliente_email, nome: cliente_nome, telefone: cliente_telefone, sexo: cliente_sexo, endereco: cliente_endereco.isNull() ? null : cliente_endereco, observacao: cliente_observacao, data_nascimento: cliente_data_nascimento, data_cadastro: cliente_data_cadastro });
     
     const venda = new VendaModel({ loja_cnpj, data, hora, tipo_venda, numero_abertura, controle_interno, controle_especifico, codigo_pdv, cancelada: venda_cancelada, forma_pagamento, quantidade_total_de_produtos, somatorio_valor_produtos, somatorio_valor_unitario, somatorio_valor_subtotal_item, somatorio_valor_pagamento, acrescimo_desconto: acrescimo_desconto.isNull() ? null : acrescimo_desconto, cliente: cliente.isNull() ? null : cliente, itens });
 
