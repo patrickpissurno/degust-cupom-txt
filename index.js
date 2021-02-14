@@ -46,7 +46,7 @@ module.exports = function(txt){
 
     const acrescimo_desconto = new AcrescimoDescontoModel(ind_acres_desc, valor_acres_desc);
 
-    const venda_cancelada = lines[1].substr(19, 1).trim() || null;
+    const venda_cancelada = lines[1].substr(19, 1) === 'S';
 
     const linha_5 = lines.find(x => x.startsWith('5'));
 
@@ -91,7 +91,7 @@ module.exports = function(txt){
         const sequencia_item = parseInt(lines[i].substr(2, 3));
         const codigo = parseInt(lines[i].substr(5, 10));
         const nome = lines[i].substr(30, 50).trim();
-        const cancelado = lines[i].substr(116, 1);
+        const cancelado = lines[i].substr(116, 1) === 'S';
         const quantidade = parseInt(lines[i].substr(86, 6));
         const valor_unitario = parseFixedPoint(lines[i].substr(96, 10), 2);
         const subtotal_item = parseFixedPoint(lines[i].substr(106, 10), 2);
