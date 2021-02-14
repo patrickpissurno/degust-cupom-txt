@@ -3,6 +3,7 @@ const { EnderecoModel  } = require('./models/endereco');
 const { FormaPagamentoModel } = require('./models/forma-pagamento');
 const { VendaItemModel } = require('./models/venda-item');
 const { VendaModel } = require('./models/venda');
+const { AcrescimoDescontoModel } = require('./models/acrescimo-desconto');
 
 const { parseFixedPoint } = require('./utils/decimal');
 
@@ -34,20 +35,22 @@ module.exports = function(txt){
     const loja_cnpj = lines[0].substr(26, 14);
 
     const tipo_venda = parseInt(lines[1].substr(20, 1));
-    const num_abertura = parseInt(lines[1].substr(34, 2));
+    const numero_abertura = parseInt(lines[1].substr(34, 2));
     const controle_interno = parseInt(lines[1].substr(9, 10));
     const controle_especifico = parseInt(lines[1].substr(21, 10));
-    const cod_pdv = parseInt(lines[1].substr(31, 3));
+    const codigo_pdv = parseInt(lines[1].substr(31, 3));
 
-    const total_prod_cupom = parseFixedPoint(lines[1].substr(197, 12), 2);
+    const somatorio_valor_produtos = parseFixedPoint(lines[1].substr(197, 12), 2);
     const ind_acres_desc = lines[1].substr(209, 1).trim() || null;
     const valor_acres_desc = parseFixedPoint(lines[1].substr(210, 12), 2);
+
+    const acrescimo_desconto = new AcrescimoDescontoModel(ind_acres_desc, valor_acres_desc);
 
     const venda_cancelada = lines[1].substr(19, 1).trim() || null;
 
     const linha_5 = lines.find(x => x.startsWith('5'));
 
-    const qnt_total_prod = parseFixedPoint(linha_5.substr(7, 12), 2);
+    const quantidade_total_de_produtos = parseFixedPoint(linha_5.substr(7, 12), 2);
     const somatorio_valor_unitario = parseFixedPoint(linha_5.substr(21, 14), 2);
     const somatorio_valor_subtotal_item = parseFixedPoint(linha_5.substr(35, 14), 2);
     const somatorio_valor_pagamento = parseFixedPoint(linha_5.substr(49, 14), 2);
@@ -92,9 +95,9 @@ module.exports = function(txt){
         const quantidade = parseInt(lines[i].substr(86, 6));
         const valor_unitario = parseFixedPoint(lines[i].substr(96, 10), 2);
         const subtotal_item = parseFixedPoint(lines[i].substr(106, 10), 2);
-        const obs_digitada = lines[i].substr(117).trim() || null;
+        const observacao = lines[i].substr(117).trim() || null;
 
-        itens.push(new VendaItemModel(sequencia_item, codigo, nome, cancelado, quantidade, valor_unitario, subtotal_item, obs_digitada));
+        itens.push(new VendaItemModel(sequencia_item, codigo, nome, cancelado, quantidade, valor_unitario, subtotal_item, observacao));
     }
 
     let forma_pagamento = [];
@@ -117,7 +120,7 @@ module.exports = function(txt){
     const cliente_endereco = new EnderecoModel(cliente_endereco_logradouro, cliente_endereco_numero, cliente_endereco_complemento, cliente_endereco_bairro, cliente_endereco_cep, cliente_endereco_municipio, cliente_endereco_uf, cliente_endereco_referencia);
     const cliente = new ClienteModel(cliente_cpf, cliente_cnpj, cliente_email, cliente_nome, cliente_telefone, cliente_sexo, cliente_endereco.isNull() ? null : cliente_endereco, cliente_observacao, cliente_data_nascimento, cliente_data_cadastro);
     
-    const venda = new VendaModel(loja_cnpj, data, hora, tipo_venda, num_abertura, controle_interno, controle_especifico, cod_pdv, venda_cancelada, forma_pagamento, qnt_total_prod, total_prod_cupom, somatorio_valor_unitario, somatorio_valor_subtotal_item, somatorio_valor_pagamento, ind_acres_desc, valor_acres_desc, cliente.isNull() ? null : cliente, itens);
+    const venda = new VendaModel(loja_cnpj, data, hora, tipo_venda, numero_abertura, controle_interno, controle_especifico, codigo_pdv, venda_cancelada, forma_pagamento, quantidade_total_de_produtos, somatorio_valor_produtos, somatorio_valor_unitario, somatorio_valor_subtotal_item, somatorio_valor_pagamento, acrescimo_desconto.isNull() ? null : acrescimo_desconto, cliente.isNull() ? null : cliente, itens);
 
     return venda;
 }
