@@ -1,17 +1,38 @@
 const { format: formatCep } = require('../utils/cep');
 
 class EnderecoModel {
-    constructor(logradouro, numero, complemento, bairro, cep, municipio, uf, referencia){
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cep = cep;
-        this.municipio = municipio;
-        this.uf = uf;
-        this.referencia = referencia;
+
+    /** @param { EnderecoModel } props */
+    constructor(props){
+        /** @type { string } Logradouro */
+        this.logradouro = props.logradouro;
+
+        /** @type { string } Número do endereço (mas é string) */
+        this.numero = props.numero;
+
+        /** @type { string } Complemento */
+        this.complemento = props.complemento;
+
+        /** @type { string } Bairro */
+        this.bairro = props.bairro;
+
+        /** @type { string } CEP */
+        this.cep = props.cep;
+
+        /** @type { string } Município */
+        this.municipio = props.municipio;
+
+        /** @type { string } UF (unidade federativa) */
+        this.uf = props.uf;
+
+        /** @type { string } Referência */
+        this.referencia = props.referencia;
     }
 
+    /**
+     * Retorna o endereço formatado
+     * @returns { string } string
+     */
     toString(){
         let r = [];
         r.push(this.logradouro);
