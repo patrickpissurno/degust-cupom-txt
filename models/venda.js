@@ -4,46 +4,64 @@ const { ClienteModel } = require('./cliente');
 const { VendaItemModel } = require('./venda-item');
 
 class VendaModel {
+    
     /**
-     * Cupom de venda
-     * @param { string } loja_cnpj cnpj da loja (só números)
-     * @param { string } data data da venda (yyyy-MM-dd)
-     * @param { string } hora hora da venda (HH:mm:ss)
-     * @param { number } tipo_venda 1 = venda balcão, 2 e 8 = delivery, 5 = NF manual, 9 = take out
-     * @param { number } numero_abertura número de abertura do caixa no dia
-     * @param { number } controle_interno identificador interno da venda no dia
-     * @param { number } controle_especifico ?
-     * @param { number } codigo_pdv identificador do pdv
-     * @param { boolean } cancelada 
-     * @param { FormaPagamentoModel[] } forma_pagamento informações relacionadas ao método de pagamento
-     * @param { number } quantidade_total_de_produtos quantidade (não valor) total de produtos no cupom
-     * @param { number } somatorio_valor_produtos somatório (em reais) do valor de produtos no cupom
-     * @param { number } somatorio_valor_unitario somatório (em reais) do valor de produtos no cupom
-     * @param { number } somatorio_valor_subtotal_item somatório (em reais) do valor de produtos no cupom
-     * @param { number } somatorio_valor_pagamento valor a ser pago pelo cliente (inclui descontos e acréscimos)
-     * @param { AcrescimoDescontoModel } [acrescimo_desconto] informações sobre descontos ou acréscimos
-     * @param { ClienteModel } [cliente] informações sobre o cliente que fez esta compra
-     * @param { VendaItemModel[] } itens lista de itens (produtos) que o cliente comprou
+     * @param { VendaModel } props 
      */
-    constructor(loja_cnpj, data, hora, tipo_venda, numero_abertura, controle_interno, controle_especifico, codigo_pdv, cancelada, forma_pagamento, quantidade_total_de_produtos, somatorio_valor_produtos, somatorio_valor_unitario, somatorio_valor_subtotal_item, somatorio_valor_pagamento, acrescimo_desconto, cliente, itens){
-        this.loja_cnpj = loja_cnpj;
-        this.data = data;
-        this.hora = hora;
-        this.tipo_venda = tipo_venda;
-        this.numero_abertura = numero_abertura;
-        this.controle_interno = controle_interno;
-        this.controle_especifico = controle_especifico;
-        this.codigo_pdv = codigo_pdv;
-        this.cancelada = cancelada;
-        this.forma_pagamento = forma_pagamento;
-        this.quantidade_total_de_produtos = quantidade_total_de_produtos;
-        this.somatorio_valor_produtos = somatorio_valor_produtos;
-        this.somatorio_valor_unitario = somatorio_valor_unitario;
-        this.somatorio_valor_subtotal_item = somatorio_valor_subtotal_item;
-        this.somatorio_valor_pagamento = somatorio_valor_pagamento;
-        this.acrescimo_desconto = acrescimo_desconto;
-        this.cliente = cliente;
-        this.itens = itens;
+    constructor(props){
+        /** @type { string } cnpj da loja (só números) */
+        this.loja_cnpj = props.loja_cnpj;
+
+        /** @type { string } data da venda (yyyy-MM-dd) */
+        this.data = props.data;
+
+        /** @type { string } hora da venda (HH:mm:ss) */
+        this.hora = props.hora;
+
+        /** @type { number } 1 = venda balcão, 2 e 8 = delivery, 5 = NF manual, 9 = take out */
+        this.tipo_venda = props.tipo_venda;
+
+        /** @type { number } número de abertura do caixa no dia */
+        this.numero_abertura = props.numero_abertura;
+
+        /** @type { number } identificador interno da venda no dia */
+        this.controle_interno = props.controle_interno;
+
+        /** @type { number } ? */
+        this.controle_especifico = props.controle_especifico;
+
+        /** @type { number } identificador do pdv */
+        this.codigo_pdv = props.codigo_pdv;
+
+        /** @type { boolean } */
+        this.cancelada = props.cancelada;
+
+        /** @type { FormaPagamentoModel[] } informações relacionadas ao método de pagamento */
+        this.forma_pagamento = props.forma_pagamento;
+
+        /** @type { number } quantidade (não valor) total de produtos no cupom */
+        this.quantidade_total_de_produtos = props.quantidade_total_de_produtos;
+
+        /** @type { number } somatório (em reais) do valor de produtos no cupom */
+        this.somatorio_valor_produtos = props.somatorio_valor_produtos;
+
+        /** @type { number } somatório (em reais) do valor de produtos no cupom */
+        this.somatorio_valor_unitario = props.somatorio_valor_unitario;
+
+        /** @type { number } somatório (em reais) do valor de produtos no cupom */
+        this.somatorio_valor_subtotal_item = props.somatorio_valor_subtotal_item;
+
+        /** @type { number } valor a ser pago pelo cliente (inclui descontos e acréscimos) */
+        this.somatorio_valor_pagamento = props.somatorio_valor_pagamento;
+
+        /** @type { AcrescimoDescontoModel } informações sobre descontos ou acréscimos */
+        this.acrescimo_desconto = props.acrescimo_desconto;
+
+        /** @type { ClienteModel } informações sobre o cliente que fez esta compra */
+        this.cliente = props.cliente;
+
+        /** @type { VendaItemModel[] } lista de itens (produtos) que o cliente comprou */
+        this.itens = props.itens;
     }
 }
 
