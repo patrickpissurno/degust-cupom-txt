@@ -1,4 +1,10 @@
 # degust-cupom-txt
+[![npm-version](https://img.shields.io/npm/v/degust-cupom-txt.svg)](https://www.npmjs.com/package/degust-cupom-txt)
+[![build status](https://travis-ci.org/patrickpissurno/degust-cupom-txt.svg?branch=master)](https://travis-ci.org/patrickpissurno/degust-cupom-txt)
+[![coverage status](https://coveralls.io/repos/github/patrickpissurno/degust-cupom-txt/badge.svg?branch=master)](https://coveralls.io/github/patrickpissurno/degust-cupom-txt?branch=master)
+[![known vulnerabilities](https://snyk.io/test/github/patrickpissurno/degust-cupom-txt/badge.svg)](https://snyk.io/test/github/patrickpissurno/degust-cupom-txt)
+[![downloads](https://img.shields.io/npm/dt/degust-cupom-txt.svg)](http://npm-stats.com/~packages/degust-cupom-txt)
+[![license](https://img.shields.io/github/license/patrickpissurno/degust-cupom-txt.svg?maxAge=1800)](https://github.com/patrickpissurno/degust-cupom-txt/blob/master/LICENSE)
 Biblioteca capaz de extrair os dados dos cupons .txt que o sistema de PDV Linx Degust emite.
 
 ### Exemplo
