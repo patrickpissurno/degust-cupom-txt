@@ -44,7 +44,7 @@ module.exports = function(txt){
     const ind_acres_desc = lines[1].substr(209, 1).trim() || null;
     const valor_acres_desc = parseFixedPoint(lines[1].substr(210, 12), 2);
 
-    const acrescimo_desconto = new AcrescimoDescontoModel(ind_acres_desc, valor_acres_desc);
+    const acrescimo_desconto = new AcrescimoDescontoModel({ tipo: ind_acres_desc, valor: valor_acres_desc });
 
     const venda_cancelada = lines[1].substr(19, 1) === 'S';
 

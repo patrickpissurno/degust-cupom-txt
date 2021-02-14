@@ -1,7 +1,12 @@
 class AcrescimoDescontoModel {
-    constructor(tipo, valor){
-        this.tipo = tipo;
-        this.valor = valor;
+
+    /** @param { AcrescimoDescontoModel } props */
+    constructor(props){
+        /** @type { string } tipo (A = acréscimo, D = desconto) */
+        this.tipo = props.tipo;
+
+        /** @type { number } valor do acréscimo/desconto */
+        this.valor = props.valor;
     }
 
     isNull(){
