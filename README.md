@@ -5,6 +5,7 @@
 [![known vulnerabilities](https://snyk.io/test/github/patrickpissurno/degust-cupom-txt/badge.svg)](https://snyk.io/test/github/patrickpissurno/degust-cupom-txt)
 [![downloads](https://img.shields.io/npm/dt/degust-cupom-txt.svg)](http://npm-stats.com/~packages/degust-cupom-txt)
 [![license](https://img.shields.io/github/license/patrickpissurno/degust-cupom-txt.svg?maxAge=1800)](https://github.com/patrickpissurno/degust-cupom-txt/blob/master/LICENSE)
+
 Biblioteca capaz de extrair os dados dos cupons .txt que o sistema de PDV Linx Degust emite.
 
 ### Exemplo
