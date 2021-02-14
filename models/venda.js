@@ -5,9 +5,7 @@ const { VendaItemModel } = require('./venda-item');
 
 class VendaModel {
     
-    /**
-     * @param { VendaModel } props 
-     */
+    /** @param { VendaModel } props */
     constructor(props){
         /** @type { string } cnpj da loja (só números) */
         this.loja_cnpj = props.loja_cnpj;
@@ -33,7 +31,7 @@ class VendaModel {
         /** @type { number } identificador do pdv */
         this.codigo_pdv = props.codigo_pdv;
 
-        /** @type { boolean } */
+        /** @type { boolean } a venda foi cancelada? */
         this.cancelada = props.cancelada;
 
         /** @type { FormaPagamentoModel[] } informações relacionadas ao método de pagamento */

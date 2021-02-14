@@ -97,7 +97,7 @@ module.exports = function(txt){
         const subtotal_item = parseFixedPoint(lines[i].substr(106, 10), 2);
         const observacao = lines[i].substr(117).trim() || null;
 
-        itens.push(new VendaItemModel(sequencia_item, codigo, nome, cancelado, quantidade, valor_unitario, subtotal_item, observacao));
+        itens.push(new VendaItemModel({ sequencia_item, codigo, nome, cancelado, quantidade, valor_unitario, subtotal_item, observacao }));
     }
 
     let forma_pagamento = [];
