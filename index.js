@@ -9,10 +9,20 @@ const { parseFixedPoint } = require('./utils/decimal');
 
 const PATTERN_UNICODE_NULL = /\u0000/g;
 
+class CorruptedDataError extends Error {
+    /** @param { string } message */
+    constructor(message) {
+      super(message);
+      this.name = "CorruptedDataError";
+    }
+}
+
 /**
  * Realiza o parsing e extrai os dados de um cupom txt de venda
- * @param { string } txt
- * @returns { VendaModel }
+ * @param { string } txt conteúdo do arquivo txt do cupom de venda
+ * @returns { VendaModel } dados do cupom de venda
+ * @throws { CorruptedDataError } faz throw deste erro caso o conteúdo do cupom esteja corrompido
+ * @author Patrick Pissurno <contato@patrickpissurno.com.br>
 */
 module.exports = function(txt){
     let lines;
@@ -20,10 +30,10 @@ module.exports = function(txt){
         lines = txt.split('\n');
 
         if(lines.length < 3 || txt.replace(PATTERN_UNICODE_NULL, '').length < 1)
-            throw new Error('Arquivo corrompido.');
+            throw new CorruptedDataError('Arquivo corrompido.');
     }
     catch(ex){
-        throw new Error('Arquivo corrompido.');
+        throw new CorruptedDataError('Arquivo corrompido.');
     }
 
     let _tmp = lines[0].substr(40, 8);
