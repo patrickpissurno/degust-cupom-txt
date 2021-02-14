@@ -1,7 +1,12 @@
 class FormaPagamentoModel {
-    constructor(nome, valor){
-        this.nome = nome;
-        this.valor = valor;
+    
+    /** @param { FormaPagamentoModel } props */
+    constructor(props){
+        /** @type { string } nome do método de pagamento */
+        this.nome = props.nome;
+
+        /** @type { number } valor pago */
+        this.valor = props.valor;
     }
 
     isNull(){
