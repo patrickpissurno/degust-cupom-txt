@@ -135,3 +135,10 @@ module.exports = function(txt){
 
     return venda;
 }
+
+module.exports.ClienteModel = ClienteModel;
+module.exports.EnderecoModel = EnderecoModel;
+module.exports.FormaPagamentoModel = FormaPagamentoModel;
+module.exports.VendaItemModel = VendaItemModel;
+module.exports.VendaModel = VendaModel;
+module.exports.AcrescimoDescontoModel = AcrescimoDescontoModel;
