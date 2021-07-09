@@ -10,8 +10,11 @@ class VendaModel {
         /** @type { string } cnpj da loja (só números) */
         this.loja_cnpj = props.loja_cnpj;
 
-        /** @type { string } data da venda (yyyy-MM-dd) */
+        /** @type { string } data real da venda (yyyy-MM-dd) */
         this.data = props.data;
+
+        /** @type { string } data caixa da venda (yyyy-MM-dd) */
+        this.data_caixa = props.data_caixa;
 
         /** @type { string } hora da venda (HH:mm:ss) */
         this.hora = props.hora;

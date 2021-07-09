@@ -38,6 +38,9 @@ module.exports = function(txt){
 
     let _tmp = lines[0].substr(40, 8);
     const data = _tmp.substr(0, 4) + '-' + _tmp.substr(4, 2) + '-' + _tmp.substr(6, 2);
+
+    _tmp = lines[1].substr(1, 8);
+    const data_caixa = _tmp.substr(0, 4) + '-' + _tmp.substr(4, 2) + '-' + _tmp.substr(6, 2);
     
     _tmp = lines[0].substr(48, 6);
     const hora = _tmp.substr(0, 2) + ':' + _tmp.substr(2, 2) + ':' + _tmp.substr(4, 2);
@@ -86,7 +89,7 @@ module.exports = function(txt){
     const cliente_endereco_cep = lines[2].substr(489, 8).trim() || null;
     const cliente_endereco_municipio = lines[2].substr(568, 80).trim() || null;
     const cliente_endereco_uf = lines[2].substr(648, 2).trim() || null;
-    const cliente_endereco_referencia = lines[2].substr(715, 50).trim() || null;
+    const cliente_endereco_referencia = lines[2].substr(715, 50).trim() || null; //FIXME: confirmar comparando com o extrattor
 
     const cliente_endereco = new EnderecoModel({ logradouro: cliente_endereco_logradouro, numero: cliente_endereco_numero, complemento: cliente_endereco_complemento, bairro: cliente_endereco_bairro, cep: cliente_endereco_cep, municipio: cliente_endereco_municipio, uf: cliente_endereco_uf, referencia: cliente_endereco_referencia });
 
@@ -131,7 +134,7 @@ module.exports = function(txt){
 
     const cliente = new ClienteModel({ cpf: cliente_cpf, cnpj: cliente_cnpj, email: cliente_email, nome: cliente_nome, telefone: cliente_telefone, sexo: cliente_sexo, endereco: cliente_endereco.isNull() ? null : cliente_endereco, observacao: cliente_observacao, data_nascimento: cliente_data_nascimento, data_cadastro: cliente_data_cadastro });
     
-    const venda = new VendaModel({ loja_cnpj, data, hora, tipo_venda, numero_abertura, controle_interno, controle_especifico, codigo_pdv, cancelada: venda_cancelada, forma_pagamento, quantidade_total_de_produtos, somatorio_valor_produtos, somatorio_valor_unitario, somatorio_valor_subtotal_item, somatorio_valor_pagamento, acrescimo_desconto: acrescimo_desconto.isNull() ? null : acrescimo_desconto, cliente: cliente.isNull() ? null : cliente, itens });
+    const venda = new VendaModel({ loja_cnpj, data, data_caixa, hora, tipo_venda, numero_abertura, controle_interno, controle_especifico, codigo_pdv, cancelada: venda_cancelada, forma_pagamento, quantidade_total_de_produtos, somatorio_valor_produtos, somatorio_valor_unitario, somatorio_valor_subtotal_item, somatorio_valor_pagamento, acrescimo_desconto: acrescimo_desconto.isNull() ? null : acrescimo_desconto, cliente: cliente.isNull() ? null : cliente, itens });
 
     return venda;
 }
