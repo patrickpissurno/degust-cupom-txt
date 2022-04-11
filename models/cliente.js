@@ -43,7 +43,7 @@ class ClienteModel {
     }
 
     isNull(){
-        return this.cpf == null && this.cnpj == null && this.email == null && this.nome == null && this.telefone == null && this.endereco == null;
+        return this.cpf == null && this.cnpj == null && this.email == null && this.nome == null && this.telefone == null && this.endereco == null && this.observacao == null;
     }
 }
 
