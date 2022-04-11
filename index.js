@@ -75,7 +75,7 @@ module.exports = function(txt){
     const cliente_nome = lines[2].substr(15, 100).trim() || null;
     const cliente_telefone = lines[2].substr(548, 20).trim() || null;
     const cliente_sexo = lines[2].substr(970, 1).trim() || null;
-    const cliente_observacao = lines[2].substr(675, 40).trim() || null;
+    const cliente_observacao = lines[2].substr(675, 40).trim() || lines[1].substr(286, 55).trim() || null;
 
     _tmp = lines[2].substr(659, 8).trim() || null;
     const cliente_data_nascimento = !_tmp || parseInt(_tmp.substr(0, 4)) <= 1900 ? null : (_tmp.substr(0, 4) + '-' + _tmp.substr(4, 2) + '-' + _tmp.substr(6, 2));
