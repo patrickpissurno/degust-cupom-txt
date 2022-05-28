@@ -1,6 +1,6 @@
 {
   "name": "degust-cupom-txt",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "Module capaz de extrair os dados dos cupons .txt que o PDV Linx Degust gera",
   "main": "index.js",
   "scripts": {
