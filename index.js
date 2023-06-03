@@ -72,10 +72,10 @@ module.exports = function(txt){
     const somatorio_valor_pagamento = parseFixedPoint(linha_5.substr(49, 14), 2);
 
     const cliente_tipo = linha_1.substr(62, 1).trim() || null;
-    const cliente_cpf = cliente_tipo === 'J' ? null : (linha_2.substr(1, 14).trim() || linha_1.substr(66, 77).trim() || null);
+    const cliente_cpf = cliente_tipo === 'J' ? null : (linha_2.substr(1, 11).trim() || linha_1.substr(66, 11).trim() || null);
     const cliente_cnpj = cliente_tipo !== 'J' ? null : (linha_2.substr(1, 14).trim() || null);
     const cliente_email = linha_2.substr(498, 50).trim() || null;
-    const cliente_nome = linha_2.substr(15, 100).trim() || null;
+    const cliente_nome = linha_2.substr(15, 100).trim() || linha_1.substr(77,40).trim() || null;
     const cliente_telefone = linha_2.substr(548, 20).trim() || null;
     const cliente_sexo = linha_2.substr(970, 1).trim() || null;
     const cliente_observacao = linha_2.substr(675, 40).trim() || linha_1.substr(286, 55).trim() || null;
